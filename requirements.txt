@@ -3,5 +3,4 @@ langchain-core
 langchain-community
 langchain-openai
 requests
-python-dotenv
-termcolor
+dotenv
