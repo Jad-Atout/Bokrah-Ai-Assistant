@@ -1,6 +1,6 @@
 from prompts.update_prompt import update_appointment_prompt
 from tools import get_user_appointments, get_staff, get_customers, get_services, get_available_slots, update_appointment
-from tools.control_flow import CompleteOrEscalate
+from tools.complete_or_escalate import CompleteOrEscalate
 from utils import llm, Assistant
 
 update_appointment_safe_tools = [get_user_appointments, get_staff, get_customers, get_services, get_available_slots]

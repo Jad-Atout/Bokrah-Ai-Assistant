@@ -1,6 +1,6 @@
 from prompts.cancel_prompt import cancel_appointment_prompt
 from tools import get_user_appointments, cancel_appointment
-from tools.control_flow import CompleteOrEscalate
+from tools.complete_or_escalate import CompleteOrEscalate
 from utils import llm, Assistant
 
 cancel_appointment_safe_tools = [get_user_appointments]

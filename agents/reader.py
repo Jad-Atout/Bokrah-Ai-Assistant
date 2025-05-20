@@ -1,6 +1,6 @@
 from prompts.reader_prompt import reader_prompt
 from tools import get_customers, get_staff, get_services, get_available_slots
-from tools.control_flow import CompleteOrEscalate
+from tools.complete_or_escalate import CompleteOrEscalate
 from utils import llm, Assistant
 
 reader_safe_tools = [get_customers, get_staff, get_services, get_available_slots]
