@@ -1,0 +1,16 @@
+# Virtual environment
+venv/
+
+# VSCode or PyCharm settings
+.idea/
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# LangGraph cache or config
+.langgraph_api
+
+# OS-specific
+.DS_Store
+Thumbs.db

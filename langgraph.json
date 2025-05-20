@@ -1,8 +1,9 @@
 {
   "dockerfile_lines": [],
-  "graphs": {
-    "Bokrah Ai": "./AiAssistantV4.py:graph"
-  },
+ "graphs": {
+  "Bokrah Ai": "graph.build_graph:graph"
+}
+,
   "env": "./.env",
   "python_version": "3.13",
   "dependencies": [
