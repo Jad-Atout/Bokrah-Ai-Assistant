@@ -1,39 +1,46 @@
 from langchain_core.tools import tool
 from tools.api_client import get
-from utils.config import CLIENT_ID
 
 
 @tool
-def get_user_appointments():
+def get_user_appointments(configurable=None):
     """Fetch all appointments for the current authenticated user."""
-    return get("/appointment")
+    token = configurable.get("user_token")
+    return get("/appointment", token=token)
 
 
 @tool
-def get_customer_appointments(customerId: str):
+def get_customer_appointments(customerId: str, configurable=None):
     """Fetch all appointments for a specific customer by their ID."""
-    return get(f"/appointment/customer/{customerId}")
+    token = configurable.get("user_token")
+    return get(f"/appointment/customer/{customerId}", token=token)
 
 
 @tool
-def get_staff_appointments(staffId: str):
+def get_staff_appointments(staffId: str, configurable=None):
     """Fetch all appointments assigned to a specific staff member by their ID."""
-    return get(f"/appointment/staff/{staffId}")
+    token = configurable.get("user_token")
+    return get(f"/appointment/staff/{staffId}", token=token)
 
 
 @tool
-def get_staff():
+def get_staff(configurable=None):
     """Retrieve the list of staff members for the current client."""
-    return get(f"/staff/{CLIENT_ID}")
+    client_id = configurable.get("client_id")
+    token = configurable.get("user_token")
+    return get(f"/staff/{client_id}", token=token)
 
 
 @tool
-def get_services():
+def get_services(configurable=None):
     """Retrieve the list of available services for the current client."""
-    return get(f"/service/{CLIENT_ID}")
+    client_id = configurable.get("client_id")
+    token = configurable.get("user_token")
+    return get(f"/service/{client_id}", token=token)
 
 
 @tool
-def get_customers():
+def get_customers(configurable=None):
     """Retrieve the list of all customers in the system."""
-    return get("/customer")
+    token = configurable.get("user_token")
+    return get("/customer", token=token)
