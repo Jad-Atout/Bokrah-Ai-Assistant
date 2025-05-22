@@ -5,10 +5,7 @@
 }
 ,
   "env": "./.env",
-  "auth": {
-    "path": "main.py:auth"
-  }
-  ,
+
   "python_version": "3.13",
   "dependencies": [
     "."
