@@ -1,5 +1,5 @@
 [project]
-name = "Bokrah Ai Assistant"
+name = "bokrah-ai-assistant"
 version = "0.1.0"
 description = "An Ai Assistant dedicated for Bokrah Appointment Managment System"
 authors = [{ name = "Jad Atout", email = "JadAtout.2003@gmial.com" }]
