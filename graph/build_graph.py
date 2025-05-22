@@ -103,7 +103,7 @@ builder.add_conditional_edges(
 
 memory = MemorySaver()
 graph = builder.compile(
-    #checkpointer=memory,
+    checkpointer=memory,
     interrupt_before=[
         "create_appointment_sensitive_tools",
         "update_appointment_sensitive_tools",
