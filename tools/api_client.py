@@ -1,11 +1,13 @@
+import os
+
 import requests
 from utils.config import BASE_URL
 
-
+BEARER = os.environ['BEARER']
 def _build_headers(token: str = None):
     headers = {"Content-Type": "application/json"}
     if token:
-        headers["Authorization"] = f"Bearer {token}"
+        headers["Authorization"] = f"{BEARER}{token}"
     return headers
 
 

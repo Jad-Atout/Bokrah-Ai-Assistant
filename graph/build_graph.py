@@ -1,8 +1,6 @@
-from typing import Literal
+from dotenv import load_dotenv
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph,END,START
-from langgraph.prebuilt import tools_condition
-
 from agents import create_appointment_assistant, update_appointment_assistant, cancel_appointment_assistant, \
     reader_assistant, primary_assistant
 from agents.cancel_appointment import cancel_appointment_sensitive_tools, cancel_appointment_safe_tools
@@ -13,6 +11,8 @@ from graph.routes import route_create_appointment, route_update_appointment, rou
     route_primary_assistant
 from models import State
 from nodes import create_entry_node, create_tool_node_with_fallback, pop_dialog_state
+
+load_dotenv()
 
 builder = StateGraph(State)
 
@@ -101,7 +101,7 @@ builder.add_conditional_edges(
     ],
 )
 
-#memory = MemorySaver()
+memory = MemorySaver()
 graph = builder.compile(
     #checkpointer=memory,
     interrupt_before=[

@@ -1,10 +1,14 @@
 {
-  "dockerfile_lines": [],
+  "dockerfile_lines": ["."],
  "graphs": {
   "Bokrah Ai": "graph.build_graph:graph"
 }
 ,
   "env": "./.env",
+  "auth": {
+    "path": "main.py:auth"
+  }
+  ,
   "python_version": "3.13",
   "dependencies": [
     "."

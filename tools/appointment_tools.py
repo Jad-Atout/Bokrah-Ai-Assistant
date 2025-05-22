@@ -1,4 +1,6 @@
 from langchain_core.tools import tool
+
+from models import State
 from models.appointment import (
     CreateAppointmentInput, UpdateAppointmentInput,
     CancelAppointmentInput, GetAvailableSlotsInput
@@ -7,10 +9,10 @@ from tools.api_client import post, patch
 
 
 @tool(args_schema=CreateAppointmentInput)
-def create_appointment(customer_id, slot, notes=None, recurrence=None, configurable=None):
+def create_appointment(customer_id, slot, state: State, config: dict = None, notes=None, recurrence=None):
     """Create a new appointment for a customer with optional notes and recurrence."""
-    client_id = configurable.get("client_id")
-    token = configurable.get("user_token")
+    client_id = config["configurable"]["auth"]["client_id"]
+    token = config["configurable"]["auth"]["user_token"]
 
     payload = {"customerId": customer_id, "notes": notes, "slot": slot.model_dump()}
     if recurrence:
@@ -20,9 +22,9 @@ def create_appointment(customer_id, slot, notes=None, recurrence=None, configura
 
 
 @tool(args_schema=UpdateAppointmentInput)
-def update_appointment(appointment_id, slot, configurable=None):
+def update_appointment(appointment_id, slot, state: State, config: dict = None):
     """Update an existing appointment's slot."""
-    token = configurable.get("user_token")
+    token = config["configurable"]["auth"]["user_token"]
 
     return patch(
         f"/appointment/{appointment_id}",
@@ -32,10 +34,10 @@ def update_appointment(appointment_id, slot, configurable=None):
 
 
 @tool(args_schema=CancelAppointmentInput)
-def cancel_appointment(appointment_id, configurable=None):
+def cancel_appointment(appointment_id, state: State = None, config: dict = None):
     """Cancel an existing appointment for the current client."""
-    client_id = configurable.get("client_id")
-    token = configurable.get("user_token")
+    client_id = config["configurable"]["auth"]["client_id"]
+    token = config["configurable"]["auth"]["user_token"]
 
     return patch(
         f"/appointment/{client_id}/cancel",
@@ -45,10 +47,10 @@ def cancel_appointment(appointment_id, configurable=None):
 
 
 @tool(args_schema=GetAvailableSlotsInput)
-def get_available_slots(start_date, end_date, staffServices, recurrence=None, configurable=None):
+def get_available_slots(start_date, end_date, staffServices, recurrence=None, state: State = None, config: dict = None):
     """Retrieve available time slots between start_date and end_date for the given staff/services and optional recurrence."""
-    client_id = configurable.get("client_id")
-    token = configurable.get("user_token")
+    client_id = config["configurable"]["auth"]["client_id"]
+    token = config["configurable"]["auth"]["user_token"]
 
     payload = {
         "startDate": start_date,
