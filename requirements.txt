@@ -1,13 +1,22 @@
-langgraph~=0.4.5
+
+
+# LangChain ecosystem
 langchain-core~=0.3.60
-langchain-community
 langchain-openai~=0.3.17
-requests~=2.32.3
-dotenv~=0.9.9
+langchain-community
+langchain~=0.3.25  # Usually installed with langgraph, but okay to keep if you use chains/tools
+
+# API & server
 fastapi~=0.115.12
 uvicorn
-pydantic~=2.11.4
+
+# Env + requests + typing
 python-dotenv~=1.1.0
+requests~=2.32.3
 typing_extensions~=4.13.2
 PyJWT~=2.10.1
-langchain~=0.3.25
+pydantic~=2.11.4
+langgraph-cli
+langgraph~=0.4.5
+dotenv~=0.9.9
+langserve~=0.3.1
