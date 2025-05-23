@@ -12,17 +12,13 @@ dependencies = [
     "langchain-community",
     "langchain~=0.3.25",
 
-    # API & server
-    "fastapi~=0.115.12",
-    "uvicorn",
 
     # Env + requests + typing
     "python-dotenv~=1.1.0",
     "requests~=2.32.3",
     "typing_extensions~=4.13.2",
 
-    # Auth & JWT
-    "PyJWT~=2.10.1",
+
 
     # Validation & Graph
     "pydantic~=2.11.4",

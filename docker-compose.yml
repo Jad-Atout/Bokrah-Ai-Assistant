@@ -1,0 +1,48 @@
+version: "3.9"
+
+volumes:
+  langgraph-data:
+    driver: local
+
+services:
+  langgraph-redis:
+    image: redis:6
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+
+  langgraph-postgres:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - langgraph-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      start_period: 10s
+      timeout: 1s
+      retries: 5
+      interval: 5s
+
+  langgraph-api:
+    image: bokrah-langgraph  # Make sure you've built this image with `langgraph build -t bokrah-langgraph`
+    ports:
+      - "8123:8000"
+    depends_on:
+      langgraph-redis:
+        condition: service_healthy
+      langgraph-postgres:
+        condition: service_healthy
+    environment:
+      LANGGRAPH_HTTP: '{"configurable_headers": {"include": ["x-user-token", "x-client-id"]}}'
+      LANGSERVE_GRAPHS: '{"graph": "graph.build_graph:graph"}'
+    env_file:
+      - .env
