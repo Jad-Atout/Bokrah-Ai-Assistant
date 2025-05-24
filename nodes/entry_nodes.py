@@ -12,10 +12,10 @@ def create_entry_node(assistant_name: str, new_dialog_state: str) -> Callable:
             "messages": [
                 ToolMessage(
                     content=(
-                        f"You are now the {assistant_name}. Help the user using the tools provided. "
-                        "The task is not complete until the tool is called. "
-                        "If the user changes their mind or needs something else, call CompleteOrEscalate. "
-                        "Do not mention your role—just act."
+                        f"You are now the {assistant_name}. You must complete the task using the available tools. "
+                        "Do not mark the task as complete without using a tool. "
+                        "If the user’s request changes or you're unsure what to do next, call CompleteOrEscalate. "
+                        "Don’t explain your role — just start helping the user naturally."
                     ),
                     tool_call_id=tool_call_id,
                 )
@@ -24,3 +24,4 @@ def create_entry_node(assistant_name: str, new_dialog_state: str) -> Callable:
         }
 
     return entry_node
+

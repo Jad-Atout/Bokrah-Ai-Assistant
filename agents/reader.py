@@ -1,9 +1,10 @@
 from prompts.reader_prompt import reader_prompt
-from tools import get_customers, get_staff, get_services, get_available_slots
+from tools import get_customers, get_staff, get_services, get_available_slots, get_staff_appointments, \
+    get_customer_appointments, get_user_appointments
 from tools.complete_or_escalate import CompleteOrEscalate
 from utils import llm, Assistant
 
-reader_safe_tools = [get_customers, get_staff, get_services, get_available_slots]
+reader_safe_tools = [get_customers,get_staff_appointments,get_customer_appointments,get_user_appointments, get_staff, get_services, get_available_slots]
 reader_runnable = reader_prompt | llm.bind_tools(
     reader_safe_tools + [CompleteOrEscalate]
 )
