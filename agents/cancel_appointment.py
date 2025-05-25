@@ -1,12 +1,21 @@
-from prompts.cancel_prompt import cancel_appointment_prompt
-from tools import get_user_appointments, cancel_appointment, get_customer_appointments, get_staff_appointments
-from tools.complete_or_escalate import CompleteOrEscalate
-from utils import llm, Assistant
 
-cancel_appointment_safe_tools = [get_staff_appointments,get_customer_appointments,get_user_appointments]
-cancel_appointment_sensitive_tools = [cancel_appointment]
-cancel_appointment_tools = cancel_appointment_sensitive_tools + cancel_appointment_safe_tools
-cancel_appointment_runnable = cancel_appointment_prompt | llm.bind_tools(
-    cancel_appointment_tools + [CompleteOrEscalate]
+from langgraph.prebuilt import create_react_agent
+from prompts.cancel_prompt import cancel_appointment_prompt
+from tools import get_staff_appointments, get_customer_appointments, get_user_appointments, cancel_appointment
+from tools.complete_or_escalate import CompleteOrEscalate
+from utils import llm
+
+cancel_appointment_tools = [
+    get_staff_appointments,
+    get_customer_appointments,
+    get_user_appointments,
+    cancel_appointment,
+    CompleteOrEscalate
+]
+
+cancel_appointment_agent = create_react_agent(
+    model=llm,
+    tools=cancel_appointment_tools,
+    prompt=cancel_appointment_prompt,
+    name="cancel_appointment_assistant"
 )
-cancel_appointment_assistant = Assistant(cancel_appointment_runnable)

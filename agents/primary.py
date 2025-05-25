@@ -1,11 +1,10 @@
-from prompts.primary_prompt import primary_assistant_prompt
-from tools.primary_assistant_tools import toCancelAppointment, toReadData, toUpdateAppointment, toBookAppointment
-from utils import llm, Assistant
-
-primary_assistant_runnable = primary_assistant_prompt | llm.bind_tools([
-    toCancelAppointment,
-    toReadData,
-    toUpdateAppointment,
-    toBookAppointment,
-])
-primary_assistant = Assistant(primary_assistant_runnable)
+from prompts.primary_prompt import supervisor_agent_prompt
+from tools import assign_to_create, assign_to_update, assign_to_cancel, assign_to_reader
+from utils import llm
+from langgraph.prebuilt import create_react_agent
+supervisor_agent = create_react_agent(
+    model=llm,
+    tools=[assign_to_create, assign_to_update, assign_to_cancel, assign_to_reader],
+    prompt=supervisor_agent_prompt,
+    name="supervisor",
+)

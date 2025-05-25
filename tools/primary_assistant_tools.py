@@ -1,49 +1,33 @@
-from pydantic import BaseModel,Field
+from typing import Annotated
+from langchain_core.tools import tool, InjectedToolCallId
+from langgraph.prebuilt import InjectedState
+from langgraph.types import Command
+from langgraph.graph import MessagesState
 
+def create_handoff_tool(agent_name: str, description: str = None):
+    name = f"transfer_to_{agent_name}"
+    description = description or f"Transfer control to {agent_name}"
 
-class toBookAppointment(BaseModel):
-    """Transfers work to a specialized assistant to handle appointment booking."""
-    request: str = Field(description="User request or description of the appointment they want to book.")
-
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "request": "I want to book a haircut and color session with Sam next week."
-            }
+    @tool(name, description=description)
+    def handoff_tool(
+        state: Annotated[MessagesState, InjectedState],
+        tool_call_id: Annotated[str, InjectedToolCallId],
+    ) -> Command:
+        tool_message = {
+            "role": "tool",
+            "content": f"Transferred to {agent_name}",
+            "name": name,
+            "tool_call_id": tool_call_id,
         }
+        return Command(
+            goto=agent_name,
+            update={**state, "messages": state["messages"] + [tool_message]},
+            graph=Command.PARENT,
+        )
 
+    return handoff_tool
 
-class toUpdateAppointment(BaseModel):
-    """Transfers work to a specialized assistant to handle appointment updates."""
-    request: str = Field(description="User intent or info about the appointment they want to change.")
-
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "request": "Can I reschedule my facial appointment with Sarah to Friday?"
-            }
-        }
-
-
-class toCancelAppointment(BaseModel):
-    """Transfers work to a specialized assistant to handle appointment cancellation."""
-    request: str = Field(description="What the user said about the appointment they want to cancel.")
-
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "request": "Please cancel my massage appointment tomorrow."
-            }
-        }
-
-
-class toReadData(BaseModel):
-    """Transfers work to a specialized assistant to handle data reading or lookup requests."""
-    request: str = Field(description="What the user is trying to check or view.")
-
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "request": "Show me my appointments for this week."
-            }
-        }
+assign_to_create = create_handoff_tool(agent_name="create_appointment_assistant")
+assign_to_update = create_handoff_tool(agent_name="update_appointment_assistant")
+assign_to_cancel = create_handoff_tool(agent_name="cancel_appointment_assistant")
+assign_to_reader = create_handoff_tool(agent_name="reader_assistant")

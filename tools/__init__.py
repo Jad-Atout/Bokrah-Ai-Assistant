@@ -1,6 +1,6 @@
 # tools/__init__.py
 # -----------------
-# Group all tool entrypoints under one namespace.
+from .primary_assistant_tools import assign_to_cancel,assign_to_create,assign_to_update,assign_to_reader
 from .api_client import get, post, patch
 from .appointment_tools import (
     create_appointment,
@@ -29,4 +29,8 @@ __all__ = [
     "get_staff",
     "get_services",
     "get_customers",
+    "assign_to_update",
+    "assign_to_reader",
+    "assign_to_create",
+    "assign_to_cancel",
 ]
