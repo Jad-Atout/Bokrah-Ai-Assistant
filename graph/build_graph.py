@@ -38,6 +38,7 @@ builder.add_conditional_edges("create_appointment_assistant", route_create_appoi
 ])
 
 
+
 builder.add_node("enter_update_appointment", create_entry_node("Update Appointment Assistent", "update_appointment"))
 builder.add_node("update_appointment_assistant", update_appointment_assistant)
 
@@ -49,10 +50,12 @@ builder.add_edge("enter_update_appointment", "update_appointment_assistant")
 builder.add_edge("update_appointment_sensitive_tools", "update_appointment_assistant")
 
 builder.add_edge("update_appointment_safe_tools", "update_appointment_assistant")
-builder.add_conditional_edges(
-    "update_appointment_assistant",
-    route_update_appointment,
-    ["update_appointment_sensitive_tools", "update_appointment_safe_tools", "leave_skill",END])
+builder.add_conditional_edges("update_appointment_assistant", route_update_appointment, [
+    "update_appointment_sensitive_tools",
+    "update_appointment_safe_tools",
+    "leave_skill",
+    END
+])
 
 
 builder.add_node("enter_cancel_appointment", create_entry_node("Cancel Appointment Assistent", "cancel_appointment"))
@@ -69,11 +72,13 @@ builder.add_node("cancel_appointment_safe_tools",
 builder.add_edge("enter_cancel_appointment", "cancel_appointment_assistant")
 builder.add_edge("cancel_appointment_sensitive_tools", "cancel_appointment_assistant")
 builder.add_edge("cancel_appointment_safe_tools", "cancel_appointment_assistant")
-builder.add_conditional_edges("cancel_appointment_assistant", route_cancel_appointment,
-                              ["cancel_appointment_safe_tools",
-                               "cancel_appointment_sensitive_tools",
-                               "leave_skill",
-                               END])
+builder.add_conditional_edges("cancel_appointment_assistant", route_cancel_appointment, [
+    "cancel_appointment_safe_tools",
+    "cancel_appointment_sensitive_tools",
+    "leave_skill",
+    END
+])
+
 
 builder.add_node("enter_reader", create_entry_node("Reader Assistant", "reader_assistant"))
 builder.add_node("reader_assistant", reader_assistant)
@@ -82,7 +87,12 @@ builder.add_node("reader_tools", create_tool_node_with_fallback(reader_safe_tool
 
 builder.add_edge("enter_reader", "reader_assistant")
 builder.add_edge("reader_tools", "reader_assistant")
-builder.add_conditional_edges("reader_assistant", route_read_data, ["reader_tools", "leave_skill", END])
+builder.add_conditional_edges("reader_assistant", route_read_data, [
+    "reader_tools",
+    "leave_skill",
+    END
+])
+
 
 builder.add_node("primary_assistant", primary_assistant)
 builder.add_edge(START, "primary_assistant")
