@@ -5,10 +5,10 @@ from tools import (
     get_customers,
     get_services,
     get_available_slots,
-    update_appointment
+    update_appointment,
+    return_to_supervisor
 )
-from tools.complete_or_escalate import CompleteOrEscalate
-from utils import llm
+from utils import llm, trim_agent_state
 from langgraph.prebuilt import create_react_agent
 
 update_appointment_tools = [
@@ -18,12 +18,13 @@ update_appointment_tools = [
     get_services,
     get_available_slots,
     update_appointment,
-    CompleteOrEscalate
+    return_to_supervisor
 ]
 
 update_appointment_agent = create_react_agent(
     model=llm,
     tools=update_appointment_tools,
     prompt=update_appointment_prompt,
-    name="update_appointment_assistant"
+    name="update_appointment_assistant",
+    pre_model_hook=trim_agent_state,
 )

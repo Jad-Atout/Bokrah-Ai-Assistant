@@ -4,12 +4,11 @@ from .appointment import (
     CancelAppointmentInput,
     GetAvailableSlotsInput,
 )
-from .graph_state import State
-
+from .collaboration import SupervisorRequest
 __all__ = [
     "CreateAppointmentInput",
     "UpdateAppointmentInput",
     "CancelAppointmentInput",
     "GetAvailableSlotsInput",
-    "State",
+    "SupervisorRequest",
 ]

@@ -9,7 +9,7 @@ from tools.api_client import post, patch
 from utils.config import CLIENT_ID
 
 
-@tool(args_schema=CreateAppointmentInput)
+@tool("create_appointment", args_schema=CreateAppointmentInput)
 def create_appointment(
     customer_id: Annotated[str, "Unique customer ID"],
     slot: Annotated[AppointmentSlot, "Appointment slot object with start/end times and sub-slots"],
@@ -18,7 +18,11 @@ def create_appointment(
 ):
     """Create a new appointment for a customer.
 
-    Accepts a time slot, optional recurrence settings, and notes.
+    Args:
+        customer_id: Unique customer ID.
+        slot: Object containing start/end times and sub-slot breakdown.
+        notes: Optional string with any appointment notes.
+        recurrence: Optional recurrence pattern (e.g., weekly, daily).
     """
     payload = {"customerId": customer_id, "notes": notes, "slot": slot.model_dump()}
     if recurrence:
@@ -26,29 +30,38 @@ def create_appointment(
     return post(f"/appointment/{CLIENT_ID}", payload)
 
 
-@tool(args_schema=UpdateAppointmentInput)
+@tool("update_appointment", args_schema=UpdateAppointmentInput)
 def update_appointment(
     appointment_id: Annotated[str, "The ID of the appointment to update"],
     slot: Annotated[AppointmentSlot, "New slot details including start and end time"]
 ):
-    """Update an existing appointment's scheduled slot."""
+    """Update an existing appointment's scheduled slot.
+
+    Args:
+        appointment_id: ID of the appointment to update.
+        slot: New slot object with updated start and end times.
+    """
     return patch(f"/appointment/{appointment_id}", {
         "appointmentId": appointment_id,
         "slot": slot.model_dump()
     })
 
 
-@tool(args_schema=CancelAppointmentInput)
+@tool("cancel_appointment", args_schema=CancelAppointmentInput)
 def cancel_appointment(
     appointment_id: Annotated[str, "The ID of the appointment to cancel"]
 ):
-    """Cancel an existing appointment for the current client."""
+    """Cancel an existing appointment for the current client.
+
+    Args:
+        appointment_id: ID of the appointment to cancel.
+    """
     return patch(f"/appointment/{CLIENT_ID}/cancel", {
         "appointmentId": appointment_id
     })
 
 
-@tool(args_schema=GetAvailableSlotsInput)
+@tool("get_available_slots", args_schema=GetAvailableSlotsInput)
 def get_available_slots(
     start_date: Annotated[str, "Start date in YYYY-MM-DD format"],
     end_date: Annotated[str, "End date in YYYY-MM-DD format"],
@@ -57,7 +70,11 @@ def get_available_slots(
 ):
     """Retrieve available appointment slots between a date range.
 
-    Includes optional recurrence and required staff-service mappings.
+    Args:
+        start_date: Start date of the desired slot range.
+        end_date: End date of the desired slot range.
+        staffServices: Staff-service assignment list.
+        recurrence: Optional recurrence settings.
     """
     payload = {
         "startDate": start_date,

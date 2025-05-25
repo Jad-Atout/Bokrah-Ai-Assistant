@@ -1,75 +1,49 @@
 from typing import Annotated
-
+from pydantic import BaseModel
 from langchain_core.tools import tool
 from tools.api_client import get
 from utils.config import CLIENT_ID
 
 
-@tool
+@tool("get_user_appointments")
 def get_user_appointments():
-    """Fetch all appointments for the current authenticated user.
-
-     Returns:
-        List of appointment objects.
-     """
+    """Fetch all appointments for the currently authenticated user."""
     return get("/appointment")
 
 
-@tool
-def get_customer_appointments(
-        customerId: Annotated[
-            str, "Customer ID whose appointments are to be fetched, e.g. '67d195dd3017f30d8042b03b'"]):
-    """Fetch all appointments for a specific customer by their ID.
+class CustomerAppointmentsInput(BaseModel):
+    customerId: Annotated[str, "Customer ID to retrieve appointments for."]
 
-    Args:
-        customerId: Unique identifier of the customer.
 
-    Returns:
-        List of appointment objects for the specified customer.
-    """
+@tool("get_customer_appointments",args_schema=CustomerAppointmentsInput)
+def get_customer_appointments(customerId: str):
+    """Fetch all appointments for a specific customer using their customer ID."""
     return get(f"/appointment/customer/{customerId}")
 
 
-@tool
-def get_staff_appointments(
-        staffId: Annotated[str, "Staff ID whose appointments are to be fetched, e.g. '67d195dd3017f30d8042b03b'"]
-):
-    """Fetch all appointments assigned to a specific staff member by their ID.
+class StaffAppointmentsInput(BaseModel):
+    staffId: Annotated[str, "Staff ID to retrieve appointments for."]
 
-    Args:
-        staffId: Unique identifier of the staff member.
 
-    Returns:
-        List of appointments assigned to the staff member.
-    """
+@tool("get_staff_appointments",args_schema=StaffAppointmentsInput)
+def get_staff_appointments(staffId: str):
+    """Fetch all appointments for a specific staff member using their staff ID."""
     return get(f"/appointment/staff/{staffId}")
 
 
-@tool
+@tool("get_staff")
 def get_staff():
-    """Retrieve the list of staff members for the current client.
-
-    Returns:
-        List of staff profiles available for the client.
-    """
+    """Retrieve all staff members registered under the current client."""
     return get(f"/staff/{CLIENT_ID}")
 
 
-@tool
+@tool("get_services")
 def get_services():
-    """Retrieve the list of available services for the current client.
-
-    Returns:
-        List of service offerings defined for the client.
-    """
+    """Retrieve all services offered by the current client."""
     return get(f"/service/{CLIENT_ID}")
 
 
-@tool
+@tool("get_customers")
 def get_customers():
-    """Retrieve the list of all customers in the system.
-
-    Returns:
-        List of customer profiles.
-    """
+    """Retrieve all customers in the system."""
     return get(f"/customer")

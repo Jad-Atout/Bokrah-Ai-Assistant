@@ -16,6 +16,7 @@ from .lookup_tools import (
     get_services,
     get_customers,
 )
+from  .return_to_supervisor import return_to_supervisor
 
 __all__ = [
     "get", "post", "patch",
@@ -33,4 +34,5 @@ __all__ = [
     "assign_to_reader",
     "assign_to_create",
     "assign_to_cancel",
+    "return_to_supervisor",
 ]

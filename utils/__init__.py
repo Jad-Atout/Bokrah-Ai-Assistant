@@ -1,5 +1,6 @@
 from .config import BASE_URL, AUTH_HEADER, CLIENT_ID
-from .dialog_reducer import update_dialog_stack
-from .Assistant import Assistant, llm
+from .Assistant import llm
+from .state_management import trim_agent_state
 
-__all__ = ["BASE_URL", "AUTH_HEADER", "CLIENT_ID", "update_dialog_stack", "Assistant", "llm"]
+__all__ = ["BASE_URL", "AUTH_HEADER", "CLIENT_ID","trim_agent_state", "llm"]
+
