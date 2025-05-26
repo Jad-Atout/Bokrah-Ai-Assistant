@@ -9,6 +9,7 @@ ADD . /deps/Bokrah-Ai-Assistant
 # -- Installing all local dependencies --
 RUN PYTHONDONTWRITEBYTECODE=1 pip install --no-cache-dir -c /api/constraints.txt -e /deps/*
 # -- End of local dependencies install --
+ENV LANGGRAPH_AUTH='{"path": "main:auth"}'
 ENV LANGGRAPH_HTTP='{"configurable_headers": {"include": ["x-user-token", "x-client-id"]}}'
 ENV LANGSERVE_GRAPHS='{"graph": "graph.build_graph:graph"}'
 

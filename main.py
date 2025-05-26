@@ -22,7 +22,9 @@ async def authenticate(headers: dict):
 
 
 @auth.on
-async def owner_only(ctx: Auth.types.AuthContext, value: dict):
+async def add_owner(ctx: Auth.types.AuthContext, value: dict):
+    filters = {"owner": ctx.user.identity}
     metadata = value.setdefault("metadata", {})
-    metadata["owner"] = ctx.user.identity
-    return {"owner": ctx.user.identity}
+    metadata.update(filters)
+    return filters
+

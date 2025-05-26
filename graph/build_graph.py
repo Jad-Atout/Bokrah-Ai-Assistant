@@ -9,6 +9,7 @@ from agents.reader import reader_safe_tools
 from agents.update_appointment import update_appointment_sensitive_tools, update_appointment_safe_tools
 from graph.routes import route_create_appointment, route_update_appointment, route_cancel_appointment, route_read_data, \
     route_primary_assistant
+from main import auth
 from models import State
 from nodes import create_entry_node, create_tool_node_with_fallback, pop_dialog_state
 
