@@ -7,9 +7,6 @@
       "include": ["x-user-token", "x-client-id"]
     }
   },
-  "auth": {
-    "path": "main:auth"
-  },
   "env": "./.env",
   "python_version": "3.13",
   "dependencies": [
