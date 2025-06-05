@@ -5,7 +5,7 @@ from tools import (
     get_customer_appointments,
     get_user_appointments,
     cancel_appointment,
-    return_to_supervisor
+    return_to_supervisor, get_user_booked_appointments
 )
 from utils import llm
 from utils.state_management import trim_agent_state
@@ -14,7 +14,7 @@ from utils.state_management import trim_agent_state
 cancel_appointment_tools = [
     get_staff_appointments,
     get_customer_appointments,
-    get_user_appointments,
+    get_user_booked_appointments,
     cancel_appointment,
     return_to_supervisor
 ]

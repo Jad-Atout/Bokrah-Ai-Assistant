@@ -1,21 +1,18 @@
 from prompts.update_prompt import update_appointment_prompt
 from tools import (
-    get_user_appointments,
     get_staff,
     get_customers,
-    get_services,
     get_available_slots,
     update_appointment,
-    return_to_supervisor
+    return_to_supervisor, get_user_booked_appointments
 )
 from utils import llm, trim_agent_state
 from langgraph.prebuilt import create_react_agent
 
 update_appointment_tools = [
-    get_user_appointments,
+    get_user_booked_appointments,
     get_staff,
     get_customers,
-    get_services,
     get_available_slots,
     update_appointment,
     return_to_supervisor

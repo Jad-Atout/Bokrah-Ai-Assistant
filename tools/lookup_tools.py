@@ -11,6 +11,17 @@ def get_user_appointments():
     return get("/appointment")
 
 
+@tool("get_user_booked_appointments")
+def get_user_booked_appointments():
+    """Fetch all booked appointments for the currently authenticated user."""
+    appointments = get("/appointment")
+    booked_appointments = []
+    for appointment in appointments.detailedAppointments:
+        if appointment.status == "Booked":
+            booked_appointments.append(appointment)
+    return booked_appointments
+
+
 class CustomerAppointmentsInput(BaseModel):
     customerId: Annotated[str, "Customer ID to retrieve appointments for."]
 
