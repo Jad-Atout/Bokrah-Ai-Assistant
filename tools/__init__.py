@@ -15,6 +15,7 @@ from .lookup_tools import (
     get_staff,
     get_services,
     get_customers,
+    get_user_booked_appointments
 )
 from  .return_to_supervisor import return_to_supervisor
 
@@ -35,4 +36,5 @@ __all__ = [
     "assign_to_create",
     "assign_to_cancel",
     "return_to_supervisor",
+    "get_user_booked_appointments",
 ]
